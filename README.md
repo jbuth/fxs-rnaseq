@@ -1,6 +1,7 @@
 # fxs-rnaseq
+Co-expression network analysis (WGCNA) of RNA-seq data from a mouse model of Fragile X syndrome.
 
-## This repository contains R code used for weighted gene co-expression network analysis (WGCNA) in:  
+## This repository contains R code for weighted gene co-expression network analysis (WGCNA) applied in:  
 Suresh A, Kourdougli N, Buth JE, Sánchez-León CA, Wall LT, Tran AT, Miranda-Rottmann S, Araya R, Gandal MJ, Portera-Cailliau C. Translatome profiling reveals opposing alterations in inhibitory and excitatory neurons of Fragile X mice and identifies EPAC2 as a therapeutic target. bioRxiv 2025.04.21.649817; doi: https://doi.org/10.1101/2025.04.21.649817
 
 ## Dataset Description (69 samples):  
