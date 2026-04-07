@@ -11,5 +11,5 @@ Suresh A, Kourdougli N, Buth JE, Sánchez-León CA, Wall LT, Tran AT, Miranda-Ro
 ## The included RData object contains:  
 - datExpr: counts (17,634 genes x 69 samples)  
 - datExpr.vst:vst normalized counts (17,634 genes x 69 samples) 
-- datMeta: sample metadata including CRE_line, Genotype, Cell_type, Brain_Region, Sex, Group, and Mouse  
+- datMeta: sample metadata including CRE_line, Genotype, Cell_type, Region, Sex, Group, and Mouse  
 - geneAnno: gene annotation for the 17,634 genes in datExpr
