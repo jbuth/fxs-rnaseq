@@ -11,7 +11,7 @@ The dataset includes RNA-seq from 69 samples across genotype, brain region, and 
 - Cell Types: PV and CAMK2A
 
 ## The included RData object contains the following processed data:  
-- datExpr: counts (17,634 genes × 69 samples)  
-- datExpr.vst: VST-normalized counts (17,634 genes × 69 samples) 
+- datExpr: counts (17,634 genes x 69 samples)  
+- datExpr.vst: VST-normalized counts (17,634 genes x 69 samples) 
 - datMeta: sample metadata including CRE_line, Genotype, Cell_type, Region, Sex, Group, and Mouse  
 - geneAnno: gene annotation for the 17,634 genes in datExpr
