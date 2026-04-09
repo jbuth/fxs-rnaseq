@@ -8,13 +8,13 @@ Suresh A, Kourdougli N, Buth JE, Sánchez-León CA, Wall LT, Tran AT, Miranda-Ro
 The dataset includes RNA-seq from 69 samples across genotype, brain region, and cell type.
 - Genotypes: Fmr1 KO and WT mice  
 - Brain Regions: S1 and V1  
-- Cell Types: Pvalb and Camk2a
+- Cell Types: Pvalb (PV) and Camk2a (CAMK2A)
 
 ## Analysis Overview:
 Normalized expression matrix → WGCNA consensus network → module detection → module-trait relationships → functional enrichments
 
 ## Code Overview:
 - 01_consensus_network.R
-    - consensus network construction across cell types (Pvalb and Camk2a), module assignments, module-trait correlation, module eigengene expression, and module enrichments (protein-protein interactions, gene ontology, and Fisher's Exact test to test overlap with external gene lists)
+    - consensus network construction across cell types (PV and CAMK2A), module assignments, module-trait correlation, module eigengene expression, and module enrichments (protein-protein interactions, gene ontology, and Fisher's Exact test to test overlap with external gene lists)
 - 02_biorxiv_figure_3A_and_3B.R
     - code to calculate and plot the dendrogram and module effect size in Figure 3A-B.
