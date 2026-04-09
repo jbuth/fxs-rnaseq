@@ -1,4 +1,6 @@
+##################################
 ## --- 01: Set-up workspace --- ##
+##################################
 
 # clear workspace
 rm(list=ls()) 
@@ -15,8 +17,9 @@ network.name = "Signed_consensus_minModsize50_network_"
 # Create a folder for this network (change name for each network)
 if (networkdir %in% list.files() == FALSE) {dir.create(file.path(networkdir))}
 
-
+########################################################################################
 ## --- 02: Calculate consensus network with minModsize = 50 (Set1=PV, Set2=CAMK2) --- ##
+########################################################################################
 
 load(file=paste0(rootdir, "/Network_Analysis/multiExpr_vst_norm_softthresh.RData"))
 
@@ -71,7 +74,9 @@ save(net, geneAnno, softPower, consExpr,
 kME = consensuskME
 colors = moduleColors
 
-## ---  Export gene lists from all mods -- ##
+################################################
+## --- 03: Export gene lists from all mods -- ##
+################################################
 
 list_of_genes = list()
 for (i in 1:ncol(MEs)) {
@@ -98,7 +103,9 @@ for (i in 1:ncol(MEs)) {
 names(list_of_genes) = colnames(MEs)
 save(list_of_genes, file=paste0(networkdir, "/", "All_module_gene_lists.RData"))
 
-## --- Module PPI enrichments --- ##
+########################################
+## --- 04: Module PPI enrichments --- ##
+########################################
 
 # BiocManager::install("STRINGdb", version="3.12")
 library(STRINGdb);
@@ -138,7 +145,10 @@ df.final$module = paste0(rownames(df.final), "_", df.final$module)
 g.df.final = tableGrob(df.final, rows = NULL); grid.arrange(g.df.final)
 write.csv(df.final, file=paste0(networkdir, "/PPI_enrichment/module_PPI_enrichments.csv"))
 
-## --- Module Trait Correlation --- ##
+##########################################
+## --- 05: Module Trait Correlation --- ##
+##########################################
+
 nSets = checkSets(consExpr)$nSets
 exprSize = checkSets(consExpr);
 nSets = exprSize$nSets;
@@ -196,12 +206,9 @@ labeledHeatmap(Matrix = modTraitCor, xLabels = names(datTraits), yLabels = rowna
     verticalSeparator.x=seq(1:ncol(modTraitCor)), horizontalSeparator.y=seq(1:nrow(modTraitCor)))
 dev.off()
 
-## --- Load saved PPI enrichments for plotting --- ##
-
-df.final = read.csv(paste0(networkdir, "/PPI_enrichment/module_PPI_enrichments.csv"))
-df.final = df.final[,-1]
-
-## --- Calculate module gene-list enrichments --- ##
+##############################################################################
+## --- 06: Calculate module gene-list enrichments (Fisher's Exact Test) --- ##
+##############################################################################
 
 if (paste0(networkdir, "/module_gene_list_enrichments") %in% list.files() == FALSE) {dir.create(file.path(paste0(networkdir, "/module_gene_list_enrichments")))}
 
@@ -290,7 +297,10 @@ pdf(paste0(networkdir, "/module_gene_list_enrichments/Module_list_enrichment_res
   print(mod.padj)
 dev.off()
 
-## --- External Gene list overlaps --- ##
+######################################################
+## --- 07: External Gene list overlap with DEGs --- ##
+######################################################
+
       load(file=paste0(rootdir, "/All_DEG_lists.RData"))
       overlaps = list()
         for (i in 1:length(list_of_genes)) {
@@ -312,7 +322,9 @@ dev.off()
             names(overlaps[[i]]) = c(names(gene.list.for.enrichment), colnames(DEGs))
         }
 
-## --- setup datMeta & data for figures --- ##
+##################################################
+## --- 08: setup datMeta & data for figures --- ##
+##################################################
 
 datMeta = rbind(consExpr[[1]]$meta, consExpr[[2]]$meta) # check if this has final swap fixed
 datMeta$Condition = paste0(datMeta$Cell_type,"_",datMeta$Genotype, "_",datMeta$Region)
@@ -331,7 +343,9 @@ datMeta = datMeta[idx, ] # make sure has same order as MEs
 idx = match(colnames(consExpr[[1]]$data), geneAnno$ensembl_gene_id)
 geneAnno = geneAnno[idx,] # make geneAnno match
 
-## --- Loop through each mod and plot figure to inspect --- ##
+##########################################################################
+## --- 09: Loop through each mod and plot figure to inspect results --- ##
+##########################################################################
 
 for(i in 1:ncol(MEs)) {
   
@@ -525,5 +539,3 @@ for(i in 1:ncol(MEs)) {
   } else {
   }
 }
-
-
