@@ -7,7 +7,22 @@ rm(list=ls())
 # set the default for strings as characters not factors
 options(stringsAsFactors = FALSE)
 
-library(DESeq2);  library(nlme); library(gtools); library(grid); library(gridExtra); library(ggplot2); library(gtable); library(gprofiler2); library(WGCNA); library(igraph); library(ggrepel); library(ggpubr); library(gProfileR); library(ggsignif); library(rstatix); library(STRINGdb); library(gridGraphics); 
+library(DESeq2)
+library(nlme)
+library(gtools)
+library(grid)
+library(gridExtra)
+library(ggplot2)
+library(gtable)
+library(gProfileR) # note gProfileR is used in this script, but is now depreciated, gprofiler2 is the new version
+library(WGCNA)
+library(igraph)
+library(ggrepel)
+library(ggpubr)
+library(ggsignif)
+library(rstatix)
+library(STRINGdb)
+library(gridGraphics)
 
 # create shortcut for output folder and network name
 rootdir <- getwd()
@@ -108,8 +123,9 @@ save(list_of_genes, file=paste0(networkdir, "/", "All_module_gene_lists.RData"))
 ########################################
 
 # BiocManager::install("STRINGdb", version="3.12")
-library(STRINGdb);
+library(STRINGdb)
     # Score threshold is not specified. We will be using medium stringency cut-off of 400.
+
 PPI.enrich.res = list();
 for (i in 1:length(list_of_genes)) {
   m = list_of_genes[[i]]$moduleName; moduleColor = c = list_of_genes[[i]]$moduleColor;
@@ -125,7 +141,7 @@ rownames(df) = names(PPI.enrich.res)
 colnames(df) = c("enrichment", "edges", "lambda")
 
 for (j in 1:length(PPI.enrich.res)) {
-  if ((j==29)==TRUE) {
+  if ((j==29)==TRUE) { # excludes module 29 - grey unassigned module
     df[j,] = c(0, 0, 0)
   } else {
   df[j,] = c(PPI.enrich.res[[j]]$enrichment, PPI.enrich.res[[j]]$edges, PPI.enrich.res[[j]]$lambda)
@@ -328,7 +344,6 @@ dev.off()
 
 datMeta = rbind(consExpr[[1]]$meta, consExpr[[2]]$meta) # check if this has final swap fixed
 datMeta$Condition = paste0(datMeta$Cell_type,"_",datMeta$Genotype, "_",datMeta$Region)
-datMeta$Condition = factor(datMeta$Condition)
 datMeta$Condition = factor(datMeta$Condition)
 
 datMeta$Cell_Geno = paste0(datMeta$Cell_type,"_",datMeta$Genotype)
@@ -536,6 +551,4 @@ for(i in 1:ncol(MEs)) {
 
     #rm(me, m, c, a, res.table, g.boxplot, dat.sub, g.pvalTable, g.anovaTable)
       
-  } else {
-  }
-}
+  } 
