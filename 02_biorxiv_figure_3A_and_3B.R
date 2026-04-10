@@ -9,20 +9,15 @@ rm(list=ls())
 # set the default for strings as characters not factors
 options(stringsAsFactors = FALSE)
 
-# set working directory as R (above data, output
+# set working directory as R (above data and output)
 
-library(DESeq2);  library(nlme); library(gtools); library(grid); 
-library(gridExtra); library(ggplot2); library(gtable); library(gprofiler2); 
-library(WGCNA); library(igraph); library(ggrepel); library(ggpubr); 
-library(gProfileR); library(ggsignif); library(rstatix); library(STRINGdb); library(gridGraphics); 
-
-# output folder and network name
-root.dir <- getwd()
-networkdir = paste0("output/Consensus_network_signed_minModsize50")
-network.name = "Consensus_network_signed_minModsize50"
-
-# Create a folder for this network (change name for each network)
-if (networkdir %in% list.files() == FALSE) {dir.create(file.path(networkdir), showWarnings = FALSE)}
+library(WGCNA)      # plotDendroAndColors
+library(biomaRt)    # useMart, getBM
+library(dplyr)      # pipe operators
+library(nlme)       # lme
+library(emmeans)    # emmeans
+library(gtools)     # stars.pval
+library(ggplot2)    # FC.plot
 
 ###########################
 ## --- 02: Load data --- ##
@@ -36,17 +31,25 @@ ls()
     #  [7] "MEs"          "moduleColors" "moduleLabels"
     # [10] "myLabels"     "net"          "network.name"
     # [13] "networkdir"   "root.dir"      "softPower" 
-rm(rootdir, networkdir, labels)
+rm(root.dir, networkdir, labels) # remove the previously saved and create new below
 
 kME = consensuskME
 colors = moduleColors
+
+# output folder and network name
+root.dir <- getwd()
+networkdir = paste0("output/Consensus_network_signed_minModsize50")
+network.name = "Consensus_network_signed_minModsize50"
+
+# Create a folder for this network (change name for each network)
+if (networkdir %in% list.files() == FALSE) {dir.create(file.path(networkdir), showWarnings = FALSE)}
 
 #############################################################################################
 ## --- 03: Panel A. WGCNA dendrogram with module colors & other co-variates underneath --- ##
 #############################################################################################
 
 # Get additional gene info to put under dendrogram from biomaRt ####
-library(biomaRt);
+
 mart.mouse <- useMart(biomart="ENSEMBL_MART_ENSEMBL",
                 dataset="mmusculus_gene_ensembl")
 attributes <- listAttributes(mart.mouse)
@@ -158,8 +161,6 @@ dev.off()
 
 # add in avg gene expression for diff subsets
 
-library(dplyr);
-
 # consExpr has samps as rows & genes as columns
 df = rbind(consExpr[[1]]$data, consExpr[[2]]$data)
 match(rownames(df), datMeta$Samples)
@@ -219,7 +220,6 @@ dev.off()
 ##################################################
 
 # Graph is a heatmap, x is the module names, y is log2(FC), color is bars is -log10(pval), and then asterisks are added for significance
-library(nlme); library(emmeans);
 
 MEs.all.export$Cell_Genotype = paste0(MEs.all.export$Cell_type, 
                                       "_", MEs.all.export$Genotype)
