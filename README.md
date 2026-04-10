@@ -10,6 +10,9 @@ The dataset includes RNA-seq from 69 samples across genotype, brain region, and 
 - Brain Regions: S1 and V1  
 - Cell Types: Pvalb (PV) and Camk2a (CAMK2A)
 
+## Data Availability:
+- The raw and processed dataset will be available at GEO after publication
+  
 ## Analysis Overview:
 Normalized expression matrix → WGCNA consensus network → module detection → module-trait relationships → functional enrichments
 
